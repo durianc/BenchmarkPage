@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+    <title>Edge-Based Helmet Detection</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <script type="py" src="./main.py" config="./pyscript.toml"></script>
+</head>
+<body>
+<div id="app">
+
+    <h1>Dataset and approach for helmet-wearing detection with edge devices at construction sites</h1>
+    <ul>
+        <li v-for="author in authors" :key="author.id">
+            {{ author.name }}
+            <sup v-for="(affIndex, index) in author.affiliations" :key="index">
+                {{ affIndex }}<span v-if="index < author.affiliations.length - 1">,</span>
+            </sup>
+        </li>
+    </ul>
+    
+    <ul class="affiliations">
+        <li v-for="(affiliation, index) in uniqueAffiliations" :key="index">
+            {{ index + 1 }}: {{ affiliation }}
+        </li>
+    </ul>
+    
+
+    <h2>Abstract</h2>
+    <p>
+        {{ abstract }}
+    </p>
+
+    <h2>Examples</h2>
+    <div class="image-container">
+        <img src="static/figs4helmet.jpg" alt="examples-picture">
+    </div>
+
+
+    <!--    <h2>Introduction</h2>-->
+<!--    <p>The introduction will be displayed here.</p>-->
+
+    <h2>Video for Previewing Results</h2>
+    <div class="videoContainer">
+        <video id="videoPlayer" controls>
+            <source :src="videoSource" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <hr>
+
+    <h2>Citation</h2>
+    <div>
+        <pre class="bib-pre">{{ bibCite }}</pre>
+    </div>
+
+    <h2>Download Dataset</h2>
+    <div>
+        <p>
+            The benchmark dataset HWD2024 is available in the <b>COCO (Common Objects in Context)</b> format, which is used by the most object detection datasets.<br> 
+            Please contact Liao Longlong via the Email <strong>liaolonglong@fzu.edu.cn</strong> if you have any suggestion or question about improving and downloading this benchmark dataset.<br> 
+            The annotation files of samples in its test set are excluded from the download dataset since you are required to evaluate your models by uploading test results and evaluating with our online system. Online model evaluation makes the results are more fair to compare with each other.  
+            <u><strong>Once the paper is accepted, the dataset will be available to download.</strong></u>
+        </p>
+    </div>
+
+    <div class="button-row">
+        <button @click="showVerificationDialog">Download Dataset</button>
+    </div>
+
+
+    <hr>
+    <h2>Model Evaluation</h2>
+    <ol class="custom-ol">
+        To evaluate the model accuracy (AP per class and mAP) based on its JSON-formatted prediction results:
+        <li>Click the 'Upload JSON file' button to upload a <b>JSON</b> file that contains the prediction results of a model. The demo JSON file is available at <a href="data/predictions/example_predictions.json" download="example_predictions.json">here</a>, to illustrate the data format of predict results.</li>
+        <li>Email verification is required to confirm your identity; it must be an <b>education</b> Email.</li>
+        <li>Click on the "<b>Evaluate & Show Results</b>" button to obtain the evaluation results.<u> If your model results are outstanding</u>, you can choose whether to <b>add the results to the following table.</b></li>
+    </ol>
+
+    <!-- 隐藏的上传文件input -->
+    <input type="file" id="file-upload" ref="fileInput" @change="handleFilesUpload" style="display: none;" />
+    <div class="button-row">
+        <!-- 按钮 -->
+        <button @click="triggerFileUpload">Upload JSON file</button>
+        <button 
+            id="jsonEvalButton" 
+            py-click="newact.load_json_files" 
+            :disabled="!isFileUploaded" 
+            class="button" 
+            :class="{ disabledButton: !isFileUploaded }"
+        >Evaluate & Show Results</button>
+        <div v-if="uploadedFiles.length > 0">
+            {{ uploadedFiles[0].name }}
+        </div>
+    </div>
+
+    <!-- 显示上传文件的列表 -->
+
+
+    <section class="pyscript">
+        <div id="jsonEval"></div>
+    </section>
+
+    <hr>
+    <h2>Model Evaluation Results</h2>
+    <p>
+        This following table displays the evaluation results of state-of-the-art models:
+    </p>
+
+    <!-- 模态窗口 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modalText">模态窗口内容...</div>
+            <div id="betterResultNotice" style="display: none;">This represents the best outcome thus far！</div>
+            <div id="resultNotice" style="display: none;">Display the information regarding the results.</div>
+
+            <!-- 按钮容器 -->
+            <div class="buttons-container">
+                <button id="confirmButton" class="modal-button">Append to Table</button>
+                <button id="exportToJsonModal" class="modal-button">Export to JSON</button>
+                <button id="exportToXlsxModal" class="modal-button">Export to XLSX</button>
+                <input type="file" id="codeFileUpload" class="modal-button" style="display: none;" />
+                <input type="file" id="modelFileUpload" class="modal-button" style="display: none;" />
+                <button id="uploadCodeButton" class="modal-button">Upload Code</button>
+                <button id="uploadModelButton" class="modal-button">Upload Model</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="result_table">
+        <!-- 示例的base模型评估结果 -->
+        <table border="1">
+            <tr class="static">
+                <th>Model</th>
+                <th>Metric</th>
+                <th>Overall</th>
+                <th>blue</th>
+                <th>white</th>
+                <th>yellow</th>
+                <th>red</th>
+                <th>none</th>
+                <th>correct</th>
+                <th>person</th>
+                <th>orange</th>
+                <th>wrong</th>
+            </tr>
+            <!-- <tr class="static">
+                <td rowspan="2" title="YWS">
+                    YOLOv7-tRPA
+                    (<a href="data/weights/yolov7_tiny_rpab_base.pt" download="yolov7_tiny_rpab_base.pt">Weight</a>,
+                    <a href="data/code_sample.zip" download="Code">Code</a>)
+                </td>
+                <td>@.5</td>
+                <td>0.935</td>
+                <td>0.981</td>
+                <td>0.924</td>
+                <td>0.972</td>
+                <td>0.966</td>
+                <td>0.958</td>
+                <td>0.903</td>
+                <td>0.976</td>
+                <td>0.984</td>
+                <td>0.751</td>
+            </tr>
+            <tr class="static">
+                <td>@.5:.95</td>
+                <td>0.732</td>
+                <td>0.793</td>
+                <td>0.701</td>
+                <td>0.695</td>
+                <td>0.758</td>
+                <td>0.719</td>
+                <td>0.7</td>
+                <td>0.818</td>
+                <td>0.799</td>
+                <td>0.602</td>
+            </tr> -->
+
+            <!-- <tr class="static">
+                <td rowspan="2" title="YWS">
+                    YOLOv7-tRPA-case1
+                    (<a href="data/weights/yolov7_tiny_rpab_case1.pt" download="yolov7_tiny_rpab_case1.pt">Weight</a>,
+                    <a href="data/code_sample.zip" download="Code">Code</a>)
+                </td>
+                <td>@.5</td>
+                <td>0.938</td>
+                <td>0.979</td>
+                <td>0.922</td>
+                <td>0.964</td>
+                <td>0.971</td>
+                <td>0.986</td>
+                <td>0.962</td>
+                <td>0.913</td>
+                <td>0.773</td>
+                <td>0.972</td>
+            </tr>
+            <tr class="static">
+                <td>@.5:.95</td>
+                <td>0.735</td>
+                <td>0.797</td>
+                <td>0.69</td>
+                <td>0.69</td>
+                <td>0.771</td>
+                <td>0.811</td>
+                <td>0.721</td>
+                <td>0.697</td>
+                <td>0.615</td>
+                <td>0.828</td>
+            </tr>
+
+            <tr class="static">
+                <td rowspan="2" title="YWS">
+                    YOLOv7-tRPA-case2
+                    (<a href="data/weights/yolov7_tiny_rpab_case4.pt" download="yolov7_tiny_rpab_case4.pt">Weight</a>,
+                    <a href="data/code_sample.zip" download="Code">Code</a>)
+                </td>
+                <td>@.5</td>
+                <td>0.94</td>
+                <td>0.985</td>
+                <td>0.938</td>
+                <td>0.968</td>
+                <td>0.971</td>
+                <td>0.982</td>
+                <td>0.957</td>
+                <td>0.912</td>
+                <td>0.771</td>
+                <td>0.974</td>
+            </tr>
+            <tr class="static">
+                <td>@.5:.95</td>
+                <td>0.744</td>
+                <td>0.811</td>
+                <td>0.71</td>
+                <td>0.701</td>
+                <td>0.774</td>
+                <td>0.807</td>
+                <td>0.73</td>
+                <td>0.708</td>
+                <td>0.626</td>
+                <td>0.833</td>
+            </tr> -->
+        </table>
+
+    </div>
+
+    <!--    <div id="output"></div>-->
+<!--    <button @click="getModelResults">Show Model Results</button>-->
+    <br/>
+    <footer>This system is designed by Weiyu Chen @ Fuzhou University, using the web templet from [Link to your Github repo]</footer>
+</div>
+
+<script src="js/scripts.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+/* CSS styles here */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 26px;
+    background-image: url('../static/background.png');
+    background-size: cover; /* 使背景图片覆盖整个页面 */
+    background-position: center; /* 背景图片居中 */
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 0;
+}
+
+hr {
+    color: #ffea00; /* 设置分割线的颜色 */
+    width: 95%;
+}
+
+ul {
+    list-style-type: none; /* 去除符号 */
+    padding: 0;            /* 去除默认的内边距 */
+}
+
+ul:first-of-type {
+    margin-bottom: 0; /* 仅对第一个ul调整下边距 */
+}
+.affiliations li {
+    font-style: italic; /* 应用斜体 */
+    font-size: 60%; /* 设置字体大小为原来的60% */
+}
+.affiliations{
+    margin-top: 0;
+}
+/*#app {*/
+/*    width: 100%;*/
+/*    margin: auto;*/
+/*    background-image: url('背景2.png');*/
+/*    background-size: cover; !* 使背景图片覆盖整个页面 *!*/
+/*    background-position: center; !* 背景图片居中 *!*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*    display: flex; !* 启用flex布局 *!*/
+/*    flex-direction: column; !* 设置布局方向为列 *!*/
+/*    align-items: center; !* 在交叉轴上居中对齐所有项目（这里是水平居中） *!*/
+/*}*/
+
+#app {
+    width: 100%;
+    margin: auto;
+    background: white;
+    /*background-image: url('背景2.png');*/
+    /*background-size: cover; !* 使背景图片覆盖整个页面 *!*/
+    /*background-position: center; !* 背景图片居中 *!*/
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex; /* 启用flex布局 */
+    flex-direction: column; /* 设置布局方向为列 */
+    justify-content: center; /* 在主轴上居中对齐内容 */
+    align-items: flex-start; /* 在交叉轴上的开始处对齐所有项目（这里是左对齐） */
+    position: relative; /* 关键属性,为伪元素定位做准备 */
+}
+
+#app h1 {
+    text-align: center; /* 使多行文字居中 */
+    margin: 0; /* 移除默认外边距 */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#app h2 {
+    margin-left: 2em;
+    margin-bottom: 0.5em;
+}
+
+#app p {
+    margin-left: 4em;
+    margin-right:4em;
+}
+
+#app .custom-ol {
+    margin-left: 45px;
+    margin-right: 45px;
+}
+
+#app::before {
+    content: ""; /* 伪元素需要content属性来显示 */
+    position: absolute; /* 使伪元素覆盖于#app元素之上 */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5); /* 浅色背景，这里使用白色半透明 */
+    z-index: -1; /* 确保伪元素位于内容之下 */
+}
+
+ul {
+    padding-left: 0; /* 移除默认的内边距 */
+    text-align: center;
+    width: 100%; /* 确保列表宽度占满容器 */
+    display: flex; /* 使用flex布局 */
+    flex-wrap: wrap; /* 允许列表项换行 */
+    justify-content: center; /* 在主轴上居中对齐内容 */
+}
+
+ul li {
+    margin: 10px; /* 调整间距 */
+}
+
+.bib-pre {
+    margin-left: 4em;
+    font-family: 'Segoe UI';
+    white-space: pre-wrap;
+    background-color: #f8f9fa; /* 背景色 */
+    border: 1px solid #ccc; /* 边框 */
+    padding: 10px; /* 内边距 */
+    user-select: all; /* 允许选择 */
+  }
+
+button {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 12px 12px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #5555ff;
+}
+
+
+.disabled-button {
+    background-color: #cccccc; /* 灰色背景 */
+    border-color: #cccccc; /* 灰色边框，如果按钮有边框的话 */
+    cursor: not-allowed; /* 鼠标悬停时显示不允许操作的光标 */
+}   
+/*table {*/
+/*    width: 100%; !* 设置表格宽度为100% *!*/
+/*    border-collapse: collapse; !* 合并边框 *!*/
+/*    table-layout: fixed; !* 固定表格布局 *!*/
+/*}*/
+
+/*th, td {*/
+/*    border: 1px solid #ddd; !* 设置单元格边框 *!*/
+/*    text-align: center; !* 设置文本对齐方式为居中 *!*/
+/*    padding: 8px; !* 设置单元格内边距 *!*/
+/*}*/
+
+/*th {*/
+/*    background-color: #f2f2f2; !* 设置表头背景颜色 *!*/
+/*    color: black; !* 设置表头字体颜色 *!*/
+/*}*/
+
+/*tr:hover {*/
+/*    background-color: #ddd;*/
+/*}*/
+table {
+    width: 65%; /* 设置表格宽度为100% */
+    border-collapse: collapse; /* 合并边框 */
+    table-layout: fixed; /* 采用固定表格布局，这对控制单元格大小很重要 */
+}
+
+th, td {
+    border: 1px solid #ddd; /* 设置单元格边框 */
+    text-align: center; /* 设置文本对齐方式为居中 */
+    padding: 8px; /* 设置单元格内边距 */
+    width: 60px; /* 指定单元格的宽度 */
+}
+
+th {
+    background-color: #f2f2f2; /* 设置表头背景颜色 */
+    color: black; /* 设置表头字体颜色 */
+}
+
+tr:hover {
+    background-color: #ddd; /* 鼠标悬停时行的背景颜色 */
+}
+
+/* 设置鼠标悬停时行的背景颜色 */
+
+/* 可以添加更多的CSS样式来调整表格的外观 */
+
+#app footer {
+    font-size: 90%;
+    color: black;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+    width: 100%;
+}
+
+#app .videoContainer {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px; /* 设置最大宽度为800px */
+}
+
+#app .videoContainer video {
+    width: 100%; /* 使视频自适应容器宽度 */
+    height: auto; /* 保持视频比例 */
+}
+
+
+#app button {
+    display: block; /* 或者保持默认的 inline-block */
+    /*margin-left: auto;*/
+    /*margin-right: auto;*/
+}
+#app .button-row {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center; /* 垂直居中对齐子元素 */
+    gap: 15px;
+}
+#app #result_table {
+    display: flex;
+    justify-content: center;
+}
+#result_table table {
+    width: 90%; /* 确保表格宽度占90% */
+}
+
+#result_table th:first-child,
+#result_table td:first-child {
+    width: 20%; /* 或者更多，根据需要调整 */
+    white-space: nowrap; /* 防止文字换行 */
+}
+
+@media (max-width: 1080px) {
+    body {
+        padding: 10px;
+    }
+
+    #app {
+        margin: 10px;
+    }
+
+    ul li {
+        margin: 5px; /* 在小屏幕上减少间距 */
+    }
+
+    button {
+        width: 100%; /* 确保按钮宽度占满容器 */
+        margin-top: 20px; /* 给按钮顶部添加一些外边距 */
+    }
+}
+
+/* 模态窗口样式 */
+.modal {
+    display: none; /* 默认隐藏 */
+    position: fixed; /* 固定位置 */
+    z-index: 1; /* 置于顶层 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 宽度100% */
+    height: 100%; /* 高度100% */
+    overflow: auto; /* 如果需要滚动条 */
+    background-color: rgb(0, 0, 0); /* 背景颜色 */
+    background-color: rgba(0, 0, 0, 0.4); /* 背景颜色，带有透明度 */
+}
+#modalText table {
+    width: auto; /* 只占用所需的宽度 */
+    margin: auto; /* 水平居中 */
+    max-width: 100%; /* 确保表格不会超出容器 */
+    display: inline-table; /* 使表格居中对齐 */
+}
+/* 模态内容的样式 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% 从顶部和居中 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 100%; /* 宽度80% */
+    max-width: 880px;
+    text-align: left;
+}
+.buttons-container {
+    display: flex;
+    justify-content: flex-end; /* 靠右对齐按钮 */
+    margin: 2px 4px;
+}
+.modal-button {
+    background-color: #00aaff;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block; /* 允许按钮并排显示 */
+    margin: 4px; /* 给按钮增加一些空间 */
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+
+/*#modalButtons {*/
+/*    display: grid;*/
+/*    grid-template-columns: repeat(3, 1fr);*/
+/*    gap: 1px;*/
+/*    justify-items: end;*/
+/*    white-space: nowrap; !* 应用于容器 *!*/
+/*}*/
+/*#confirmButton, #exportToJsonModal, #exportToXlsxModal {*/
+/*    grid-column: 3; !* 每个按钮占据一列 *!*/
+/*}*/
+
+
+/* 关闭按钮（x）样式 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.image-container {
+    width: 100%; /* 设置div宽度为父元素宽度的100% */
+    max-width: 1080px; /* 设置最大宽度 */
+    border: 1px solid #ccc; /* 可选：用于示意div边界 */
+    margin: 0 auto; /* 水平居中 */
+}
+.image-container img {
+    width: 100%; /* 设置图片宽度为div宽度的100% */
+    height: auto; /* 保持图片比例 */
+}
